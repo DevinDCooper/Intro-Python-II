@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -39,6 +40,10 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+player_name = input("What is your name: ")
+player_room = room["outside"]
+player = Player(player_name, player_room)
+print(player)
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +54,40 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+while True:
+    current_room = player.current_room
+    print(f'You are located at {current_room.name} and {current_room.description}')
+    print("Choose next path.")
+    enter = input('Enter n, s , e, w and q to quit the game: ')
+
+    if enter == 'q':
+            print(f'Thanks for playing, {player_name}. Till next time!')
+    if enter == 'n':
+        # The hasattr() method returns true if an object has the given named attribute and false if it does not.
+        if hasattr(current_room, 'n_to'):
+            print("going North")
+            player.current_room = current_room.n_to
+        else:
+            print(f'{player_name} enter another location, you hit a invisible wall ')
+    elif enter == 's':
+        if hasattr(current_room, 's_to'):
+            print(f'{player_name} you are going South my friend')
+            player.current_room = current_room.s_to
+        else:
+            print(f'{player_name} enter another location, you hit a invisible wall ')
+    elif enter == 'e':
+        if hasattr(current_room, 'e_to'):
+            print(f'{player_name} you are moving East!')
+            player.current_room = current_room.e_to
+        else:
+            print(f'{player_name} enter another location, you hit a invisible wall ')
+    elif enter == 'w':
+        if hasattr(current_room, 'w_to'):
+            print(f'{player_name} going out West')
+            player.current_room = current_room.w_to
+            print(f'{player_name} enter another location, you hit a invisible wall ')
+    else:
+            print('Please enter a valid location')
+            break
+
+
